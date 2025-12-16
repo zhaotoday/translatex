@@ -37,7 +37,7 @@
 │  └──────────────────────────────────────────────────────┘   │
 │                          ↕                                   │
 │  ┌──────────────────────────────────────────────────────┐   │
-│  │  @i18n-platform/cli  (命令行工具)                       │   │
+│  │  @translatex/cli  (命令行工具)                       │   │
 │  │  ├── extract  (提取词条)                                │   │
 │  │  ├── push     (上传词条)                                │   │
 │  │  └── pull     (下载译文)                                │   │
@@ -489,7 +489,7 @@ export class ReactExtractor {
 // packages/cli/src/commands/extract.ts
 import { Command } from 'commander';
 import { loadConfig } from '../config';
-import { VueExtractor } from '@i18n-platform/parser';
+import { VueExtractor } from '@translatex/parser';
 import glob from 'fast-glob';
 
 export const extractCommand = new Command('extract')
@@ -1431,7 +1431,7 @@ volumes:
 
 ```env
 # Database
-DATABASE_URL=mysql://user:password@localhost:3306/i18n_platform
+DATABASE_URL=mysql://user:password@localhost:3306/translatex
 
 # Redis
 REDIS_URL=redis://localhost:6379

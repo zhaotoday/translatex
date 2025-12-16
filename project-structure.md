@@ -3,245 +3,245 @@
 ## 完整目录结构
 
 ```
-i18n-platform/
+translatex/
 ├── .github/
-│   └── workflows/
-│       ├── ci.yml                    # CI/CD 配置
-│       └── release.yml               # 发布流程
-│
+�?  └── workflows/
+�?      ├── ci.yml                    # CI/CD 配置
+�?      └── release.yml               # 发布流程
+�?
 ├── apps/
-│   ├── web/                          # 前端管理平台
-│   │   ├── public/
-│   │   ├── src/
-│   │   │   ├── assets/              # 静态资源
-│   │   │   ├── components/          # 公共组件
-│   │   │   │   ├── EntryTable/
-│   │   │   │   ├── TranslationEditor/
-│   │   │   │   └── VersionSelector/
-│   │   │   ├── views/               # 页面视图
-│   │   │   │   ├── Dashboard.vue
-│   │   │   │   ├── Projects/
-│   │   │   │   │   ├── ProjectList.vue
-│   │   │   │   │   ├── ProjectDetail.vue
-│   │   │   │   │   └── ProjectSettings.vue
-│   │   │   │   ├── Entries/
-│   │   │   │   │   ├── EntryList.vue
-│   │   │   │   │   └── EntryEditor.vue
-│   │   │   │   ├── Translations/
-│   │   │   │   │   ├── TranslationBoard.vue
-│   │   │   │   │   └── BatchTranslate.vue
-│   │   │   │   └── Versions/
-│   │   │   │       ├── VersionList.vue
-│   │   │   │       └── VersionCompare.vue
-│   │   │   ├── router/              # 路由配置
-│   │   │   ├── store/               # Pinia Store
-│   │   │   │   ├── project.ts
-│   │   │   │   ├── entry.ts
-│   │   │   │   └── translation.ts
-│   │   │   ├── api/                 # API 调用
-│   │   │   │   ├── client.ts
-│   │   │   │   ├── project.ts
-│   │   │   │   ├── entry.ts
-│   │   │   │   └── translation.ts
-│   │   │   ├── utils/
-│   │   │   ├── App.vue
-│   │   │   └── main.ts
-│   │   ├── index.html
-│   │   ├── vite.config.ts
-│   │   ├── package.json
-│   │   └── tsconfig.json
-│   │
-│   └── api/                          # 后端 API 服务
-│       ├── src/
-│       │   ├── common/              # 公共模块
-│       │   │   ├── decorators/
-│       │   │   ├── filters/
-│       │   │   ├── guards/
-│       │   │   │   └── api-key.guard.ts
-│       │   │   ├── interceptors/
-│       │   │   └── pipes/
-│       │   ├── config/              # 配置
-│       │   │   ├── database.config.ts
-│       │   │   ├── redis.config.ts
-│       │   │   └── ai.config.ts
-│       │   ├── modules/
-│       │   │   ├── auth/            # 认证模块
-│       │   │   │   ├── auth.controller.ts
-│       │   │   │   ├── auth.service.ts
-│       │   │   │   ├── auth.module.ts
-│       │   │   │   └── strategies/
-│       │   │   │       ├── jwt.strategy.ts
-│       │   │   │       └── api-key.strategy.ts
-│       │   │   ├── user/            # 用户模块
-│       │   │   │   ├── user.controller.ts
-│       │   │   │   ├── user.service.ts
-│       │   │   │   ├── user.module.ts
-│       │   │   │   ├── entities/
-│       │   │   │   │   └── user.entity.ts
-│       │   │   │   └── dto/
-│       │   │   ├── project/         # 项目模块
-│       │   │   │   ├── project.controller.ts
-│       │   │   │   ├── project.service.ts
-│       │   │   │   ├── project.module.ts
-│       │   │   │   ├── entities/
-│       │   │   │   │   └── project.entity.ts
-│       │   │   │   └── dto/
-│       │   │   │       ├── create-project.dto.ts
-│       │   │   │       └── update-project.dto.ts
-│       │   │   ├── entry/           # 词条模块
-│       │   │   │   ├── entry.controller.ts
-│       │   │   │   ├── entry.service.ts
-│       │   │   │   ├── entry.module.ts
-│       │   │   │   ├── entities/
-│       │   │   │   │   └── entry.entity.ts
-│       │   │   │   └── dto/
-│       │   │   │       ├── batch-create-entries.dto.ts
-│       │   │   │       └── find-entries.dto.ts
-│       │   │   ├── translation/     # 翻译模块
-│       │   │   │   ├── translation.controller.ts
-│       │   │   │   ├── translation.service.ts
-│       │   │   │   ├── translation.module.ts
-│       │   │   │   ├── entities/
-│       │   │   │   │   ├── translation.entity.ts
-│       │   │   │   │   └── translation-job.entity.ts
-│       │   │   │   └── dto/
-│       │   │   ├── version/         # 版本模块
-│       │   │   │   ├── version.controller.ts
-│       │   │   │   ├── version.service.ts
-│       │   │   │   ├── version.module.ts
-│       │   │   │   ├── entities/
-│       │   │   │   │   ├── version.entity.ts
-│       │   │   │   │   └── entry-version.entity.ts
-│       │   │   │   └── dto/
-│       │   │   ├── ai/              # AI 翻译模块
-│       │   │   │   ├── ai.controller.ts
-│       │   │   │   ├── ai.service.ts
-│       │   │   │   ├── ai.module.ts
-│       │   │   │   └── providers/
-│       │   │   │       ├── openai.service.ts
-│       │   │   │       ├── google-translate.service.ts
-│       │   │   │       └── deepl.service.ts
-│       │   │   ├── queue/           # 队列模块
-│       │   │   │   ├── queue.module.ts
-│       │   │   │   ├── processors/
-│       │   │   │   │   └── translation.processor.ts
-│       │   │   │   └── producers/
-│       │   │   └── export/          # 导出模块
-│       │   │       ├── export.controller.ts
-│       │   │       ├── export.service.ts
-│       │   │       └── export.module.ts
-│       │   ├── database/
-│       │   │   └── migrations/      # 数据库迁移
-│       │   ├── app.module.ts
-│       │   ├── main.ts
-│       │   └── worker.ts            # Queue Worker 入口
-│       ├── test/
-│       ├── package.json
-│       ├── tsconfig.json
-│       └── nest-cli.json
-│
+�?  ├── web/                          # 前端管理平台
+�?  �?  ├── public/
+�?  �?  ├── src/
+�?  �?  �?  ├── assets/              # 静态资�?
+�?  �?  �?  ├── components/          # 公共组件
+�?  �?  �?  �?  ├── EntryTable/
+�?  �?  �?  �?  ├── TranslationEditor/
+�?  �?  �?  �?  └── VersionSelector/
+�?  �?  �?  ├── views/               # 页面视图
+�?  �?  �?  �?  ├── Dashboard.vue
+�?  �?  �?  �?  ├── Projects/
+�?  �?  �?  �?  �?  ├── ProjectList.vue
+�?  �?  �?  �?  �?  ├── ProjectDetail.vue
+�?  �?  �?  �?  �?  └── ProjectSettings.vue
+�?  �?  �?  �?  ├── Entries/
+�?  �?  �?  �?  �?  ├── EntryList.vue
+�?  �?  �?  �?  �?  └── EntryEditor.vue
+�?  �?  �?  �?  ├── Translations/
+�?  �?  �?  �?  �?  ├── TranslationBoard.vue
+�?  �?  �?  �?  �?  └── BatchTranslate.vue
+�?  �?  �?  �?  └── Versions/
+�?  �?  �?  �?      ├── VersionList.vue
+�?  �?  �?  �?      └── VersionCompare.vue
+�?  �?  �?  ├── router/              # 路由配置
+�?  �?  �?  ├── store/               # Pinia Store
+�?  �?  �?  �?  ├── project.ts
+�?  �?  �?  �?  ├── entry.ts
+�?  �?  �?  �?  └── translation.ts
+�?  �?  �?  ├── api/                 # API 调用
+�?  �?  �?  �?  ├── client.ts
+�?  �?  �?  �?  ├── project.ts
+�?  �?  �?  �?  ├── entry.ts
+�?  �?  �?  �?  └── translation.ts
+�?  �?  �?  ├── utils/
+�?  �?  �?  ├── App.vue
+�?  �?  �?  └── main.ts
+�?  �?  ├── index.html
+�?  �?  ├── vite.config.ts
+�?  �?  ├── package.json
+�?  �?  └── tsconfig.json
+�?  �?
+�?  └── api/                          # 后端 API 服务
+�?      ├── src/
+�?      �?  ├── common/              # 公共模块
+�?      �?  �?  ├── decorators/
+�?      �?  �?  ├── filters/
+�?      �?  �?  ├── guards/
+�?      �?  �?  �?  └── api-key.guard.ts
+�?      �?  �?  ├── interceptors/
+�?      �?  �?  └── pipes/
+�?      �?  ├── config/              # 配置
+�?      �?  �?  ├── database.config.ts
+�?      �?  �?  ├── redis.config.ts
+�?      �?  �?  └── ai.config.ts
+�?      �?  ├── modules/
+�?      �?  �?  ├── auth/            # 认证模块
+�?      �?  �?  �?  ├── auth.controller.ts
+�?      �?  �?  �?  ├── auth.service.ts
+�?      �?  �?  �?  ├── auth.module.ts
+�?      �?  �?  �?  └── strategies/
+�?      �?  �?  �?      ├── jwt.strategy.ts
+�?      �?  �?  �?      └── api-key.strategy.ts
+�?      �?  �?  ├── user/            # 用户模块
+�?      �?  �?  �?  ├── user.controller.ts
+�?      �?  �?  �?  ├── user.service.ts
+�?      �?  �?  �?  ├── user.module.ts
+�?      �?  �?  �?  ├── entities/
+�?      �?  �?  �?  �?  └── user.entity.ts
+�?      �?  �?  �?  └── dto/
+�?      �?  �?  ├── project/         # 项目模块
+�?      �?  �?  �?  ├── project.controller.ts
+�?      �?  �?  �?  ├── project.service.ts
+�?      �?  �?  �?  ├── project.module.ts
+�?      �?  �?  �?  ├── entities/
+�?      �?  �?  �?  �?  └── project.entity.ts
+�?      �?  �?  �?  └── dto/
+�?      �?  �?  �?      ├── create-project.dto.ts
+�?      �?  �?  �?      └── update-project.dto.ts
+�?      �?  �?  ├── entry/           # 词条模块
+�?      �?  �?  �?  ├── entry.controller.ts
+�?      �?  �?  �?  ├── entry.service.ts
+�?      �?  �?  �?  ├── entry.module.ts
+�?      �?  �?  �?  ├── entities/
+�?      �?  �?  �?  �?  └── entry.entity.ts
+�?      �?  �?  �?  └── dto/
+�?      �?  �?  �?      ├── batch-create-entries.dto.ts
+�?      �?  �?  �?      └── find-entries.dto.ts
+�?      �?  �?  ├── translation/     # 翻译模块
+�?      �?  �?  �?  ├── translation.controller.ts
+�?      �?  �?  �?  ├── translation.service.ts
+�?      �?  �?  �?  ├── translation.module.ts
+�?      �?  �?  �?  ├── entities/
+�?      �?  �?  �?  �?  ├── translation.entity.ts
+�?      �?  �?  �?  �?  └── translation-job.entity.ts
+�?      �?  �?  �?  └── dto/
+�?      �?  �?  ├── version/         # 版本模块
+�?      �?  �?  �?  ├── version.controller.ts
+�?      �?  �?  �?  ├── version.service.ts
+�?      �?  �?  �?  ├── version.module.ts
+�?      �?  �?  �?  ├── entities/
+�?      �?  �?  �?  �?  ├── version.entity.ts
+�?      �?  �?  �?  �?  └── entry-version.entity.ts
+�?      �?  �?  �?  └── dto/
+�?      �?  �?  ├── ai/              # AI 翻译模块
+�?      �?  �?  �?  ├── ai.controller.ts
+�?      �?  �?  �?  ├── ai.service.ts
+�?      �?  �?  �?  ├── ai.module.ts
+�?      �?  �?  �?  └── providers/
+�?      �?  �?  �?      ├── openai.service.ts
+�?      �?  �?  �?      ├── google-translate.service.ts
+�?      �?  �?  �?      └── deepl.service.ts
+�?      �?  �?  ├── queue/           # 队列模块
+�?      �?  �?  �?  ├── queue.module.ts
+�?      �?  �?  �?  ├── processors/
+�?      �?  �?  �?  �?  └── translation.processor.ts
+�?      �?  �?  �?  └── producers/
+�?      �?  �?  └── export/          # 导出模块
+�?      �?  �?      ├── export.controller.ts
+�?      �?  �?      ├── export.service.ts
+�?      �?  �?      └── export.module.ts
+�?      �?  ├── database/
+�?      �?  �?  └── migrations/      # 数据库迁�?
+�?      �?  ├── app.module.ts
+�?      �?  ├── main.ts
+�?      �?  └── worker.ts            # Queue Worker 入口
+�?      ├── test/
+�?      ├── package.json
+�?      ├── tsconfig.json
+�?      └── nest-cli.json
+�?
 ├── packages/
-│   ├── cli/                          # CLI 工具包
-│   │   ├── bin/
-│   │   │   └── i18n-cli.js          # 可执行文件
-│   │   ├── src/
-│   │   │   ├── commands/
-│   │   │   │   ├── init.ts          # 初始化命令
-│   │   │   │   ├── extract.ts       # 提取命令
-│   │   │   │   ├── push.ts          # 上传命令
-│   │   │   │   ├── pull.ts          # 下载命令
-│   │   │   │   ├── status.ts        # 状态命令
-│   │   │   │   └── version/
-│   │   │   │       ├── create.ts
-│   │   │   │       └── master.ts
-│   │   │   ├── config/
-│   │   │   │   ├── loader.ts        # 配置加载器
-│   │   │   │   └── schema.ts        # 配置验证
-│   │   │   ├── utils/
-│   │   │   │   ├── logger.ts
-│   │   │   │   ├── file-scanner.ts
-│   │   │   │   └── spinner.ts
-│   │   │   ├── index.ts
-│   │   │   └── cli.ts
-│   │   ├── templates/               # 配置模板
-│   │   │   └── i18n.config.template.js
-│   │   ├── package.json
-│   │   └── tsconfig.json
-│   │
-│   ├── parser/                       # 词条解析器核心
-│   │   ├── src/
-│   │   │   ├── extractors/
-│   │   │   │   ├── base.extractor.ts
-│   │   │   │   ├── vue.extractor.ts
-│   │   │   │   └── react.extractor.ts
-│   │   │   ├── ast/
-│   │   │   │   ├── vue-ast-parser.ts
-│   │   │   │   ├── jsx-ast-parser.ts
-│   │   │   │   └── template-parser.ts
-│   │   │   ├── utils/
-│   │   │   │   ├── deduplicate.ts
-│   │   │   │   └── normalize.ts
-│   │   │   ├── types/
-│   │   │   │   └── entry.ts
-│   │   │   └── index.ts
-│   │   ├── test/
-│   │   │   └── fixtures/            # 测试用例
-│   │   ├── package.json
-│   │   └── tsconfig.json
-│   │
-│   ├── shared/                       # 共享代码
-│   │   ├── src/
-│   │   │   ├── types/
-│   │   │   │   ├── project.ts
-│   │   │   │   ├── entry.ts
-│   │   │   │   ├── translation.ts
-│   │   │   │   ├── version.ts
-│   │   │   │   └── api.ts
-│   │   │   ├── constants/
-│   │   │   │   ├── locales.ts       # 支持的语言列表
-│   │   │   │   ├── status.ts
-│   │   │   │   └── frameworks.ts
-│   │   │   ├── utils/
-│   │   │   │   ├── date.ts
-│   │   │   │   ├── string.ts
-│   │   │   │   └── validation.ts
-│   │   │   ├── validators/          # 通用验证器
-│   │   │   └── index.ts
-│   │   ├── package.json
-│   │   └── tsconfig.json
-│   │
-│   └── sdk/                          # API SDK (供 CLI 使用)
-│       ├── src/
-│       │   ├── client.ts            # HTTP 客户端
-│       │   ├── api/
-│       │   │   ├── project.api.ts
-│       │   │   ├── entry.api.ts
-│       │   │   ├── translation.api.ts
-│       │   │   └── version.api.ts
-│       │   ├── types/
-│       │   └── index.ts
-│       ├── package.json
-│       └── tsconfig.json
-│
+�?  ├── cli/                          # CLI 工具�?
+�?  �?  ├── bin/
+�?  �?  �?  └── i18n-cli.js          # 可执行文�?
+�?  �?  ├── src/
+�?  �?  �?  ├── commands/
+�?  �?  �?  �?  ├── init.ts          # 初始化命�?
+�?  �?  �?  �?  ├── extract.ts       # 提取命令
+�?  �?  �?  �?  ├── push.ts          # 上传命令
+�?  �?  �?  �?  ├── pull.ts          # 下载命令
+�?  �?  �?  �?  ├── status.ts        # 状态命�?
+�?  �?  �?  �?  └── version/
+�?  �?  �?  �?      ├── create.ts
+�?  �?  �?  �?      └── master.ts
+�?  �?  �?  ├── config/
+�?  �?  �?  �?  ├── loader.ts        # 配置加载�?
+�?  �?  �?  �?  └── schema.ts        # 配置验证
+�?  �?  �?  ├── utils/
+�?  �?  �?  �?  ├── logger.ts
+�?  �?  �?  �?  ├── file-scanner.ts
+�?  �?  �?  �?  └── spinner.ts
+�?  �?  �?  ├── index.ts
+�?  �?  �?  └── cli.ts
+�?  �?  ├── templates/               # 配置模板
+�?  �?  �?  └── i18n.config.template.js
+�?  �?  ├── package.json
+�?  �?  └── tsconfig.json
+�?  �?
+�?  ├── parser/                       # 词条解析器核�?
+�?  �?  ├── src/
+�?  �?  �?  ├── extractors/
+�?  �?  �?  �?  ├── base.extractor.ts
+�?  �?  �?  �?  ├── vue.extractor.ts
+�?  �?  �?  �?  └── react.extractor.ts
+�?  �?  �?  ├── ast/
+�?  �?  �?  �?  ├── vue-ast-parser.ts
+�?  �?  �?  �?  ├── jsx-ast-parser.ts
+�?  �?  �?  �?  └── template-parser.ts
+�?  �?  �?  ├── utils/
+�?  �?  �?  �?  ├── deduplicate.ts
+�?  �?  �?  �?  └── normalize.ts
+�?  �?  �?  ├── types/
+�?  �?  �?  �?  └── entry.ts
+�?  �?  �?  └── index.ts
+�?  �?  ├── test/
+�?  �?  �?  └── fixtures/            # 测试用例
+�?  �?  ├── package.json
+�?  �?  └── tsconfig.json
+�?  �?
+�?  ├── shared/                       # 共享代码
+�?  �?  ├── src/
+�?  �?  �?  ├── types/
+�?  �?  �?  �?  ├── project.ts
+�?  �?  �?  �?  ├── entry.ts
+�?  �?  �?  �?  ├── translation.ts
+�?  �?  �?  �?  ├── version.ts
+�?  �?  �?  �?  └── api.ts
+�?  �?  �?  ├── constants/
+�?  �?  �?  �?  ├── locales.ts       # 支持的语言列表
+�?  �?  �?  �?  ├── status.ts
+�?  �?  �?  �?  └── frameworks.ts
+�?  �?  �?  ├── utils/
+�?  �?  �?  �?  ├── date.ts
+�?  �?  �?  �?  ├── string.ts
+�?  �?  �?  �?  └── validation.ts
+�?  �?  �?  ├── validators/          # 通用验证�?
+�?  �?  �?  └── index.ts
+�?  �?  ├── package.json
+�?  �?  └── tsconfig.json
+�?  �?
+�?  └── sdk/                          # API SDK (�?CLI 使用)
+�?      ├── src/
+�?      �?  ├── client.ts            # HTTP 客户�?
+�?      �?  ├── api/
+�?      �?  �?  ├── project.api.ts
+�?      �?  �?  ├── entry.api.ts
+�?      �?  �?  ├── translation.api.ts
+�?      �?  �?  └── version.api.ts
+�?      �?  ├── types/
+�?      �?  └── index.ts
+�?      ├── package.json
+�?      └── tsconfig.json
+�?
 ├── docs/                             # 文档
-│   ├── getting-started.md
-│   ├── cli-usage.md
-│   ├── api-reference.md
-│   └── deployment.md
-│
+�?  ├── getting-started.md
+�?  ├── cli-usage.md
+�?  ├── api-reference.md
+�?  └── deployment.md
+�?
 ├── .gitignore
 ├── .eslintrc.js
 ├── .prettierrc
-├── package.json                      # 根 package.json
+├── package.json                      # �?package.json
 ├── pnpm-workspace.yaml              # pnpm workspace 配置
 ├── turbo.json                        # Turborepo 配置
-├── tsconfig.json                     # 根 TypeScript 配置
+├── tsconfig.json                     # �?TypeScript 配置
 └── README.md
 ```
 
 ## package.json 示例
 
-### 根 package.json
+### �?package.json
 
 ```json
 {
@@ -280,7 +280,7 @@ i18n-platform/
 
 ```json
 {
-  "name": "@i18n-platform/cli",
+  "name": "@translatex/cli",
   "version": "1.0.0",
   "description": "CLI tool for i18n platform",
   "bin": {
@@ -294,9 +294,9 @@ i18n-platform/
     "test": "vitest"
   },
   "dependencies": {
-    "@i18n-platform/parser": "workspace:*",
-    "@i18n-platform/sdk": "workspace:*",
-    "@i18n-platform/shared": "workspace:*",
+    "@translatex/parser": "workspace:*",
+    "@translatex/sdk": "workspace:*",
+    "@translatex/shared": "workspace:*",
     "commander": "^11.0.0",
     "inquirer": "^9.2.0",
     "ora": "^7.0.0",
@@ -316,7 +316,7 @@ i18n-platform/
 
 ```json
 {
-  "name": "@i18n-platform/parser",
+  "name": "@translatex/parser",
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -372,30 +372,30 @@ packages:
   - 'packages/*'
 ```
 
-## 依赖关系图
+## 依赖关系�?
 
 ```
 apps/web
-  ├─→ @i18n-platform/shared
-  └─→ @i18n-platform/sdk
+  ├─�?@translatex/shared
+  └─�?@translatex/sdk
 
 apps/api
-  ├─→ @i18n-platform/shared
-  └─→ @i18n-platform/parser (用于验证提取结果)
+  ├─�?@translatex/shared
+  └─�?@translatex/parser (用于验证提取结果)
 
 packages/cli
-  ├─→ @i18n-platform/parser
-  ├─→ @i18n-platform/sdk
-  └─→ @i18n-platform/shared
+  ├─�?@translatex/parser
+  ├─�?@translatex/sdk
+  └─�?@translatex/shared
 
 packages/sdk
-  └─→ @i18n-platform/shared
+  └─�?@translatex/shared
 
 packages/parser
-  └─→ @i18n-platform/shared (types)
+  └─�?@translatex/shared (types)
 
 packages/shared
-  (无依赖)
+  (无依�?
 ```
 
 ## 开发工作流
@@ -405,14 +405,14 @@ packages/shared
 pnpm install
 ```
 
-### 2. 开发模式
+### 2. 开发模�?
 ```bash
-# 启动所有服务
+# 启动所有服�?
 pnpm dev
 
-# 或单独启动
-pnpm --filter @i18n-platform/web dev
-pnpm --filter @i18n-platform/api dev
+# 或单独启�?
+pnpm --filter @translatex/web dev
+pnpm --filter @translatex/api dev
 ```
 
 ### 3. 构建
@@ -420,8 +420,8 @@ pnpm --filter @i18n-platform/api dev
 # 构建所有包
 pnpm build
 
-# 构建特定包
-pnpm --filter @i18n-platform/cli build
+# 构建特定�?
+pnpm --filter @translatex/cli build
 ```
 
 ### 4. 测试
@@ -441,12 +441,12 @@ pnpm publish
 i18n-platform/
 ├── .env.example              # 示例环境变量
 ├── apps/
-│   ├── web/
-│   │   ├── .env.development
-│   │   └── .env.production
-│   └── api/
-│       ├── .env.development
-│       └── .env.production
+�?  ├── web/
+�?  �?  ├── .env.development
+�?  �?  └── .env.production
+�?  └── api/
+�?      ├── .env.development
+�?      └── .env.production
 ```
 
 ### apps/api/.env.example

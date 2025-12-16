@@ -1,23 +1,23 @@
-# 国际化平台实现指南
+# 国际化平台实现指�?
 
-## 1. 开发顺序建议
+## 1. 开发顺序建�?
 
 ### 阶段 1：基础设施搭建 (Week 1)
 
 #### 1.1 创建 Turborepo 项目
 ```bash
 # 使用 pnpm 创建 monorepo
-npx create-turbo@latest i18n-platform
-cd i18n-platform
+npx create-turbo@latest translatex
+cd translatex
 
 # 安装 pnpm (如果没有)
 npm install -g pnpm
 
-# 初始化
+# 初始�?
 pnpm install
 ```
 
-#### 1.2 创建包结构
+#### 1.2 创建包结�?
 ```bash
 # 创建目录
 mkdir -p packages/{cli,parser,shared,sdk}
@@ -31,7 +31,7 @@ cd ../cli && pnpm init
 ```
 
 #### 1.3 配置 TypeScript
-根目录 `tsconfig.json`:
+根目�?`tsconfig.json`:
 ```json
 {
   "compilerOptions": {
@@ -51,7 +51,7 @@ cd ../cli && pnpm init
 }
 ```
 
-### 阶段 2：共享包开发 (Week 1-2)
+### 阶段 2：共享包开�?(Week 1-2)
 
 #### 2.1 packages/shared - 类型定义
 
@@ -124,12 +124,12 @@ export interface Version {
 ```typescript
 // packages/shared/src/constants/locales.ts
 export const SUPPORTED_LOCALES = {
-  'zh-CN': '简体中文',
+  'zh-CN': '简体中�?,
   'zh-TW': '繁體中文',
   'en-US': 'English (US)',
   'en-GB': 'English (UK)',
-  'ja-JP': '日本語',
-  'ko-KR': '한국어',
+  'ja-JP': '日本�?,
+  'ko-KR': '한국�?,
   'de-DE': 'Deutsch',
   'fr-FR': 'Français',
   'es-ES': 'Español',
@@ -155,16 +155,16 @@ export const FRAMEWORK_CONFIG = {
 } as const;
 ```
 
-### 阶段 3：解析器开发 (Week 2-3)
+### 阶段 3：解析器开�?(Week 2-3)
 
-#### 3.1 packages/parser - Vue 解析器
+#### 3.1 packages/parser - Vue 解析�?
 
 ```typescript
 // packages/parser/src/extractors/vue.extractor.ts
 import { parse, SFCDescriptor } from '@vue/compiler-sfc';
 import * as babelParser from '@babel/parser';
 import traverse from '@babel/traverse';
-import { Entry } from '@i18n-platform/shared';
+import { Entry } from '@translatex/shared';
 
 export class VueExtractor {
   private functionNames = ['$t', 't'];
@@ -199,7 +199,7 @@ export class VueExtractor {
   private extractFromTemplate(template: string, filePath: string): Entry[] {
     const entries: Entry[] = [];
     
-    // 匹配 {{ $t('xxx') }} 或 v-t="'xxx'"
+    // 匹配 {{ $t('xxx') }} �?v-t="'xxx'"
     const patterns = [
       /\{\{\s*\$t\(['"](.+?)['"]\)\s*\}\}/g,
       /v-t=['"](.+?)['"]/g,
@@ -211,7 +211,7 @@ export class VueExtractor {
       while ((match = pattern.exec(template)) !== null) {
         entries.push({
           key: match[1],
-          sourceText: match[1], // 初始值，后续可能需要查询实际文本
+          sourceText: match[1], // 初始值，后续可能需要查询实际文�?
           filePath,
         });
       }
@@ -233,7 +233,7 @@ export class VueExtractor {
         CallExpression: (path) => {
           const { callee, arguments: args } = path.node;
           
-          // 检查是否是 $t() 或 t() 调用
+          // 检查是否是 $t() �?t() 调用
           const isI18nCall = 
             (callee.type === 'Identifier' && 
              this.functionNames.includes(callee.name)) ||
@@ -263,13 +263,13 @@ export class VueExtractor {
 }
 ```
 
-#### 3.2 packages/parser - React 解析器
+#### 3.2 packages/parser - React 解析�?
 
 ```typescript
 // packages/parser/src/extractors/react.extractor.ts
 import * as babelParser from '@babel/parser';
 import traverse from '@babel/traverse';
-import { Entry } from '@i18n-platform/shared';
+import { Entry } from '@translatex/shared';
 
 export class ReactExtractor {
   extract(fileContent: string, filePath: string): Entry[] {
@@ -337,15 +337,15 @@ export class ReactExtractor {
 }
 ```
 
-### 阶段 4：CLI 工具开发 (Week 3-4)
+### 阶段 4：CLI 工具开�?(Week 3-4)
 
 #### 4.1 packages/cli - 核心命令
 
 ```typescript
 // packages/cli/src/commands/extract.ts
 import { Command } from 'commander';
-import { VueExtractor } from '@i18n-platform/parser';
-import { ReactExtractor } from '@i18n-platform/parser';
+import { VueExtractor } from '@translatex/parser';
+import { ReactExtractor } from '@translatex/parser';
 import { loadConfig } from '../config/loader';
 import fg from 'fast-glob';
 import fs from 'fs-extra';
@@ -364,7 +364,7 @@ export const extractCommand = new Command('extract')
       const config = await loadConfig(options.config);
       spinner.succeed('Configuration loaded');
       
-      // 选择提取器
+      // 选择提取�?
       const Extractor = config.framework === 'vue' 
         ? VueExtractor 
         : ReactExtractor;
@@ -398,7 +398,7 @@ export const extractCommand = new Command('extract')
       const outputPath = `${outputDir}/extracted.json`;
       await fs.writeJSON(outputPath, uniqueEntries, { spaces: 2 });
       
-      console.log(chalk.green(`\n✅ Extraction complete!`));
+      console.log(chalk.green(`\n�?Extraction complete!`));
       console.log(chalk.gray(`Output: ${outputPath}`));
       
     } catch (error) {
@@ -424,7 +424,7 @@ function deduplicateEntries(entries: any[]) {
 ```typescript
 // packages/cli/src/commands/push.ts
 import { Command } from 'commander';
-import { I18nApiClient } from '@i18n-platform/sdk';
+import { I18nApiClient } from '@translatex/sdk';
 import { loadConfig } from '../config/loader';
 import fs from 'fs-extra';
 import ora from 'ora';
@@ -460,7 +460,7 @@ export const pushCommand = new Command('push')
       
       spinner.succeed('Upload complete!');
       
-      console.log(chalk.green('\n✅ Push successful!'));
+      console.log(chalk.green('\n�?Push successful!'));
       console.log(chalk.gray(`  Created: ${result.created}`));
       console.log(chalk.gray(`  Updated: ${result.updated}`));
       
@@ -482,7 +482,7 @@ export const pushCommand = new Command('push')
 ```typescript
 // packages/cli/src/commands/pull.ts
 import { Command } from 'commander';
-import { I18nApiClient } from '@i18n-platform/sdk';
+import { I18nApiClient } from '@translatex/sdk';
 import { loadConfig } from '../config/loader';
 import fs from 'fs-extra';
 import ora from 'ora';
@@ -530,7 +530,7 @@ export const pullCommand = new Command('pull')
         }
         
         spinner.succeed(`${locale} pulled successfully`);
-        console.log(chalk.gray(`  → ${outputPath}`));
+        console.log(chalk.gray(`  �?${outputPath}`));
         
       } catch (error) {
         spinner.fail(`Failed to pull ${locale}`);
@@ -538,11 +538,11 @@ export const pullCommand = new Command('pull')
       }
     }
     
-    console.log(chalk.green('\n✅ Pull complete!'));
+    console.log(chalk.green('\n�?Pull complete!'));
   });
 ```
 
-#### 4.2 packages/sdk - API 客户端
+#### 4.2 packages/sdk - API 客户�?
 
 ```typescript
 // packages/sdk/src/client.ts
@@ -579,7 +579,7 @@ export class I18nApiClient {
 
 // packages/sdk/src/api/entry.api.ts
 import { AxiosInstance } from 'axios';
-import { Entry } from '@i18n-platform/shared';
+import { Entry } from '@translatex/shared';
 
 export class EntriesApi {
   constructor(private http: AxiosInstance) {}
@@ -606,7 +606,7 @@ export class EntriesApi {
 }
 ```
 
-### 阶段 5：后端 API 开发 (Week 4-6)
+### 阶段 5：后�?API 开�?(Week 4-6)
 
 #### 5.1 apps/api - 项目搭建
 
@@ -624,7 +624,7 @@ pnpm add class-validator class-transformer
 pnpm add -D @types/passport-jwt sequelize-cli
 ```
 
-#### 5.2 数据库模型
+#### 5.2 数据库模�?
 
 ```typescript
 // apps/api/src/modules/entry/entities/entry.entity.ts
@@ -759,7 +759,7 @@ export class EntryService {
               lineNumber: entryData.lineNumber,
             });
             
-            // 标记相关翻译需要重新审核
+            // 标记相关翻译需要重新审�?
             await Translation.update(
               { isReviewed: false },
               { where: { entryId: entry.id } }
@@ -924,7 +924,7 @@ export class TranslationProcessor {
     const { jobId, projectId, sourceLocale, targetLocale, entryIds } = job.data;
     
     try {
-      // 更新任务状态
+      // 更新任务状�?
       await this.jobModel.update(
         { status: 'processing', startedAt: new Date() },
         { where: { id: jobId } }
@@ -953,7 +953,7 @@ export class TranslationProcessor {
       const total = entriesToTranslate.length;
       let translated = 0;
       
-      // 分批翻译（每批 20 条）
+      // 分批翻译（每�?20 条）
       const BATCH_SIZE = 20;
       
       for (let i = 0; i < entriesToTranslate.length; i += BATCH_SIZE) {
@@ -1017,7 +1017,7 @@ export class TranslationProcessor {
 }
 ```
 
-### 阶段 6：前端开发 (Week 6-8)
+### 阶段 6：前端开�?(Week 6-8)
 
 #### 6.1 apps/web - 项目搭建
 
@@ -1058,11 +1058,11 @@ pnpm add @vueuse/core
           </template>
         </el-input>
         
-        <el-select v-model="statusFilter" placeholder="状态筛选">
+        <el-select v-model="statusFilter" placeholder="状态筛�?>
           <el-option label="全部" value="" />
-          <el-option label="待翻译" value="pending" />
-          <el-option label="已翻译" value="translated" />
-          <el-option label="已审核" value="approved" />
+          <el-option label="待翻�? value="pending" />
+          <el-option label="已翻�? value="translated" />
+          <el-option label="已审�? value="approved" />
         </el-select>
       </div>
       
@@ -1080,7 +1080,7 @@ pnpm add @vueuse/core
           </template>
         </el-table-column>
         
-        <el-table-column prop="sourceText" label="源文本" min-width="200" />
+        <el-table-column prop="sourceText" label="源文�? min-width="200" />
         
         <el-table-column label="翻译进度" width="150">
           <template #default="{ row }">
@@ -1091,7 +1091,7 @@ pnpm add @vueuse/core
           </template>
         </el-table-column>
         
-        <el-table-column label="状态" width="100">
+        <el-table-column label="状�? width="100">
           <template #default="{ row }">
             <el-tag :type="getStatusType(row.status)">
               {{ getStatusText(row.status) }}
@@ -1209,9 +1209,9 @@ describe('VueExtractor', () => {
 
 #### 7.2 性能优化
 
-1. **数据库索引优化**
+1. **数据库索引优�?*
 ```sql
--- 为常用查询添加索引
+-- 为常用查询添加索�?
 CREATE INDEX idx_entry_project_status ON entries(project_id, status);
 CREATE INDEX idx_translation_entry_locale ON translations(entry_id, locale);
 CREATE INDEX idx_version_project_master ON versions(project_id, is_master);
@@ -1258,7 +1258,7 @@ async batchInsert(entries: Entry[]) {
 使用增量解析，只解析变更的文件：
 
 ```typescript
-// 保存文件 hash，检测变化
+// 保存文件 hash，检测变�?
 import crypto from 'crypto';
 
 function getFileHash(content: string): string {
@@ -1266,7 +1266,7 @@ function getFileHash(content: string): string {
 }
 
 async function extractIncremental(files: string[]) {
-  const cache = await loadCache(); // 加载上次的 hash 缓存
+  const cache = await loadCache(); // 加载上次�?hash 缓存
   const changed = [];
   
   for (const file of files) {
@@ -1304,7 +1304,7 @@ const queue = new Bull('translation', {
 // 监听失败事件
 queue.on('failed', (job, error) => {
   console.error(`Job ${job.id} failed:`, error);
-  // 发送通知或记录日志
+  // 发送通知或记录日�?
 });
 ```
 
@@ -1345,20 +1345,20 @@ async createVersionSnapshot(projectId: number, versionName: string) {
 ## 3. 总结
 
 完整的实现步骤：
-1. ✅ 搭建 Turborepo monorepo
-2. ✅ 开发共享类型和工具包
-3. ✅ 实现 Vue/React 解析器
-4. ✅ 开发 CLI 工具
-5. ✅ 构建后端 API (NestJS)
-6. ✅ 集成 AI 翻译
-7. ✅ 开发前端管理平台
-8. ✅ 实现版本管理
-9. ✅ 测试与优化
-10. ✅ 部署上线
+1. �?搭建 Turborepo monorepo
+2. �?开发共享类型和工具�?
+3. �?实现 Vue/React 解析�?
+4. �?开�?CLI 工具
+5. �?构建后端 API (NestJS)
+6. �?集成 AI 翻译
+7. �?开发前端管理平�?
+8. �?实现版本管理
+9. �?测试与优�?
+10. �?部署上线
 
-关键成功因素：
+关键成功因素�?
 - 模块化设计，职责清晰
-- 使用成熟的开源库，避免重复造轮子
-- 性能优化：缓存、批量、索引
+- 使用成熟的开源库，避免重复造轮�?
+- 性能优化：缓存、批量、索�?
 - 良好的错误处理和重试机制
 - 完善的文档和示例
